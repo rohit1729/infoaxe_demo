@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <title>Rover Demo</title>
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400italic|Work+Sans:300,400,500,600" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <#assign count = 0>
+    <#list contents as content>
+        <#if (content?counter - 1) % 3 == 0>
+        <div class="row" style="margin-bottom: 50px;">
+            <#if contents[count]??>
+                <div class="col-md-4 col-lg-4" style="overflow:hidden;">
+                    <img src="${contents[count].image_url}" style="max-height: 400px;">
+                    <p>id: ${contents[count].id}</p>
+                    <p>${contents[count].title}</p>
+                    <span>
+                        target_url: <a href="${contents[count].target_url}">${contents[count].target_url}</a>
+                    </span>
+
+                </div>
+                <#assign count = count+1>
+            </#if>
+            <#if contents[count]??>
+                <div class="col-md-4 col-lg-4" style="overflow:hidden;" >
+                    <img src="${contents[count].image_url}" style="max-height: 400px;">
+                    <p>id: ${contents[count].id}</p>
+                    <p>${contents[count].title}</p>
+                    <span>
+                        target_url: <a href="${contents[count].target_url}">${contents[count].target_url}</a>
+                    </span>
+                </div>
+                <#assign count = count+1>
+            </#if>
+            <#if contents[count]??>
+                <div class="col-md-4 col-lg-4" style="overflow:hidden;">
+                    <img src="${contents[count].image_url}" style="max-height: 400px;">
+                    <p>id: ${contents[count].id}</p>
+                    <p>${contents[count].title}</p>
+                    <span>
+                        target_url: <a href="${contents[count].target_url}">${contents[count].target_url}</a>
+                    </span>
+                </div>
+                <#assign count = count+1>
+            </#if>
+        </div>
+        </#if>
+    </#list>
+</div>
+</body>
+</html>
+
+

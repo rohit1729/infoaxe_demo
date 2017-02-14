@@ -1,0 +1,52 @@
+group 'com.rover'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+mainClassName = "com.rover.Main"
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    compile 'com.jappyframework:jappy-framework:5.7.6'
+    compile 'com.amazonaws:aws-java-sdk:1.11.77'
+}
+
+ext {
+    server = "35.157.127.167"
+}
+
+task unzipClean(type:Exec, 'dependsOn' : 'distZip') {
+    workingDir 'build/distributions'
+    commandLine 'rm', '-rf', "${project.name}/"
+}
+
+task unzipDist(type:Exec, dependsOn: 'unzipClean') {
+    workingDir 'build/distributions'
+    commandLine 'unzip', '-o',"${project.name}.zip"
+}
+
+task prepareWebapp(type:Exec, dependsOn: 'unzipDist') {
+    workingDir 'build/distributions'
+    commandLine 'mkdir', '-p', "${project.name}/src/main"
+}
+
+task includeWebapp(type:Exec, dependsOn: 'prepareWebapp') {
+    workingDir 'build/distributions'
+    commandLine 'cp', '-R','../../src/main/webapp', "${project.name}/src/main"
+}
+task includeTemplates(type:Exec, dependsOn: 'includeWebapp') {
+    workingDir 'build/distributions'
+    commandLine 'cp', '-R', '../../templates', "${project.name}"
+}
+task includeData(type:Exec, dependsOn: 'includeTemplates') {
+    workingDir 'build/distributions'
+    commandLine 'cp', '-R', '../../data', "${project.name}"
+}
+task quickPush(type:Exec, dependsOn: 'includeData') {
+    workingDir 'build/distributions'
+    commandLine 'rsync', '-rtv', '-e', 'ssh  -i /Users/rohitgupta/Desktop/awskeys/widget-ad.pem', '--delete', "${project.name}/", "ec2-user@$server:${project.name}"
+}
